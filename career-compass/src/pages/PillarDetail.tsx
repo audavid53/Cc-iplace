@@ -1,4 +1,5 @@
 import { BookOpen, Check, ChevronLeft, Dumbbell, PlayCircle, Sparkles } from "lucide-react";
+import { Art3D } from "@/components/art/Art3D";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MissionCard } from "@/components/gamification/MissionCard";
 import { Button } from "@/components/ui/Button";
@@ -44,7 +45,7 @@ function LessonRow({ lesson, pillarName }: { lesson: Lesson; pillarName: string 
             {lesson.minutes} min
           </Pill>
           <Pill tone="xp" size="sm" icon={<Sparkles />}>
-            +{lesson.units} Units
+            +{lesson.xp} XP
           </Pill>
         </div>
       </div>
@@ -59,7 +60,7 @@ function LessonRow({ lesson, pillarName }: { lesson: Lesson; pillarName: string 
           onClick={() =>
             complete({
               key,
-              units: lesson.units,
+              xp: lesson.xp,
               label: `Lesson completed: ${lesson.title}`,
               effect: `${pillarName} progress moved forward`,
             })
@@ -96,7 +97,7 @@ export default function PillarDetail() {
       </Link>
 
       <header className="flex flex-wrap items-start gap-4">
-        <img src={pillar.art} alt="" width={64} height={64} className="size-16 shrink-0" />
+        <Art3D name={pillar.art} size="lg" />
         <div className="min-w-[14rem] flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-title text-ink">{pillar.name}</h1>
@@ -138,7 +139,7 @@ export default function PillarDetail() {
         <SectionHeader
           id="lessons"
           title="Lessons"
-          description="Short and practical. Each one is worth Units the moment you finish it."
+          description="Short and practical. Each one is worth XP the moment you finish it."
         />
         <ul className="space-y-3">
           {pillar.lessons.map((lesson) => (
@@ -159,7 +160,7 @@ export default function PillarDetail() {
             description={pillar.project.description}
             action={
               <Pill tone="xp" icon={<Sparkles />}>
-                +{pillar.project.units} Units
+                +{pillar.project.xp} XP
               </Pill>
             }
           />
@@ -177,7 +178,7 @@ export default function PillarDetail() {
               onClick={() =>
                 complete({
                   key: projectKey,
-                  units: pillar.project.units,
+                  xp: pillar.project.xp,
                   label: `Project submitted: ${pillar.project.title}`,
                   effect: `${pillar.project.deliverable} added to your profile`,
                 })

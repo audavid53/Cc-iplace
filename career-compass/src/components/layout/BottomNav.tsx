@@ -3,31 +3,34 @@ import { PRIMARY_NAV } from "./nav-items";
 import { cn } from "@/lib/cn";
 
 /**
- * Persistent bottom navigation. It stays on desktop as a floating capsule
- * because the mobile-style interaction language is deliberate for this
- * audience — but it never becomes the only way to reach a destination, since
- * the sidebar carries the same links for pointer and screen-reader users.
+ * The floating dark capsule from the design reference: solid, high-contrast,
+ * with the active destination lifted into a filled gradient circle rather than
+ * merely tinted. Labels are visible only for the active item so five icons fit
+ * a narrow phone without shrinking below the touch target.
+ *
+ * It never becomes the only route to a destination — the sidebar carries the
+ * same links, plus the secondary ones, at desktop widths.
  */
 export function BottomNav() {
   return (
     <nav
       aria-label="Quick navigation"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 backdrop-blur",
-        "pb-[env(safe-area-inset-bottom)]",
-        "lg:inset-x-auto lg:bottom-6 lg:left-1/2 lg:w-auto lg:-translate-x-1/2 lg:rounded-pill lg:border lg:shadow-nav",
+        "fixed inset-x-4 bottom-4 z-40 rounded-pill bg-shell shadow-pill",
+        "mb-[env(safe-area-inset-bottom)]",
+        "sm:inset-x-auto sm:left-1/2 sm:w-auto sm:-translate-x-1/2",
       )}
     >
-      <ul className="mx-auto flex max-w-lg items-stretch justify-between gap-1 px-2 py-2 lg:max-w-none lg:gap-2 lg:px-2">
-        {PRIMARY_NAV.map(({ to, label, icon: Icon }) => (
-          <li key={to} className="flex-1 lg:flex-none">
+      <ul className="flex items-stretch justify-between gap-1 p-2">
+        {PRIMARY_NAV.map(({ to, label, icon: Icon, ramp }) => (
+          <li key={to} className="flex-1 sm:flex-none">
             <NavLink
               to={to}
+              data-ramp={ramp}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-col items-center gap-1 rounded-2xl px-3 py-2 text-[0.6875rem] font-semibold transition-colors",
-                  "lg:flex-row lg:gap-2 lg:rounded-pill lg:px-4 lg:text-sm",
-                  isActive ? "bg-brand-50 text-brand-700" : "text-muted hover:text-ink",
+                  "group relative flex h-12 items-center justify-center gap-2 rounded-pill px-3 transition-colors",
+                  isActive ? "ramp-fill" : "text-shell-muted hover:text-white",
                 )
               }
             >
@@ -35,10 +38,27 @@ export function BottomNav() {
                 <>
                   <Icon
                     aria-hidden="true"
-                    className="size-5 shrink-0 lg:size-4.5"
-                    strokeWidth={isActive ? 2.5 : 2}
+                    className={cn("size-5 shrink-0", isActive && "text-white")}
+                    strokeWidth={2.6}
+                    {...(isActive ? { fill: "currentColor", fillOpacity: 0.25 } : {})}
                   />
-                  <span>{label}</span>
+                  {/*
+                    The visible label appears only for the active item, and only
+                    once there is room for it. It is hidden from assistive tech
+                    because the sr-only label below is always present — without
+                    that split, the active link loses its accessible name at the
+                    widths where the visible label is display:none.
+                  */}
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "hidden text-[0.8125rem] font-bold whitespace-nowrap text-white",
+                      isActive && "sm:inline",
+                    )}
+                  >
+                    {label}
+                  </span>
+                  <span className="sr-only">{label}</span>
                 </>
               )}
             </NavLink>

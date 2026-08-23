@@ -67,7 +67,7 @@ export function ChallengeBanner({
         className="mt-4 inline-flex items-center gap-2 rounded-pill bg-white px-5 py-2.5 text-sm font-bold text-brand-700 transition-transform hover:scale-[1.02]"
       >
         Join the challenge
-        <span aria-hidden="true">+{challenge.units} Units</span>
+        <span aria-hidden="true">+{challenge.xp} XP</span>
       </Link>
     </section>
   );

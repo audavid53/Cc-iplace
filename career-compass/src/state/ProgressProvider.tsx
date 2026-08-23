@@ -2,13 +2,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { tierFor } from "@/data/badges";
 import {
   ProgressContext,
-  STARTING_UNITS,
+  SEED_COMPLETED,
+  STARTING_XP,
   STORAGE_KEY,
   type ProgressState,
   type Reward,
 } from "./progress-context";
 
-const EMPTY: ProgressState = { units: STARTING_UNITS, completed: {} };
+const EMPTY: ProgressState = {
+  xp: STARTING_XP,
+  completed: Object.fromEntries(SEED_COMPLETED.map((key) => [key, 0])),
+};
 
 function readStored(): ProgressState {
   if (typeof window === "undefined") return EMPTY;
@@ -16,8 +20,8 @@ function readStored(): ProgressState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return EMPTY;
     const parsed = JSON.parse(raw) as Partial<ProgressState>;
-    if (typeof parsed.units !== "number" || typeof parsed.completed !== "object") return EMPTY;
-    return { units: parsed.units, completed: parsed.completed ?? {} };
+    if (typeof parsed.xp !== "number" || typeof parsed.completed !== "object") return EMPTY;
+    return { xp: parsed.xp, completed: parsed.completed ?? {} };
   } catch {
     // Corrupted or unavailable storage should never break the app.
     return EMPTY;
@@ -44,27 +48,27 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const complete = useCallback(
     ({
       key,
-      units,
+      xp,
       label,
       effect,
     }: {
       key: string;
-      units: number;
+      xp: number;
       label: string;
       effect: string;
     }) => {
       setState((previous) => {
         if (previous.completed[key]) return previous;
 
-        const nextUnits = previous.units + units;
-        const before = tierFor(previous.units);
-        const after = tierFor(nextUnits);
+        const nextXp = previous.xp + xp;
+        const before = tierFor(previous.xp);
+        const after = tierFor(nextXp);
 
         setRewards((queue) => [
           ...queue,
           {
             key: `${key}:${Date.now()}`,
-            units,
+            xp,
             label,
             effect,
             ...(after.level > before.level ? { tierUnlocked: after } : {}),
@@ -72,7 +76,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
         ]);
 
         return {
-          units: nextUnits,
+          xp: nextXp,
           completed: { ...previous.completed, [key]: Date.now() },
         };
       });

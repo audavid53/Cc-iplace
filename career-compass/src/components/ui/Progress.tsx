@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 const clamp = (value: number) => Math.max(0, Math.min(100, value));
 
-type ProgressBarProps = {
+export type ProgressBarProps = {
   value: number;
   label: string;
   /** Any CSS colour — pillar accents are passed through as CSS variables. */
@@ -13,6 +13,12 @@ type ProgressBarProps = {
   /** Renders the label visually instead of only for assistive tech. */
   showLabel?: boolean;
   trackClassName?: string;
+  /**
+   * "onDark" inverts the track and fill for bars sitting on a saturated block,
+   * where the default line-grey track disappears and the brand fill has no
+   * contrast against the gradient behind it.
+   */
+  tone?: "default" | "onDark";
 };
 
 const heights = { sm: "h-1.5", md: "h-2.5", lg: "h-3.5" } as const;
@@ -25,15 +31,21 @@ export function ProgressBar({
   className,
   showLabel = false,
   trackClassName,
+  tone = "default",
 }: ProgressBarProps) {
   const pct = clamp(value);
+  const onDark = tone === "onDark";
 
   return (
     <div className={cn("w-full", className)}>
       {showLabel ? (
         <div className="mb-1.5 flex items-baseline justify-between gap-3">
-          <span className="text-sm font-medium text-ink-soft">{label}</span>
-          <span className="text-sm font-bold tabular-nums text-ink">{pct}%</span>
+          <span className={cn("text-sm font-medium", onDark ? "text-white/80" : "text-ink-soft")}>
+            {label}
+          </span>
+          <span className={cn("text-sm font-bold tabular-nums", onDark ? "text-white" : "text-ink")}>
+            {pct}%
+          </span>
         </div>
       ) : null}
       <div
@@ -44,14 +56,18 @@ export function ProgressBar({
         aria-valuenow={pct}
         aria-valuetext={`${pct} percent`}
         className={cn(
-          "w-full overflow-hidden rounded-pill bg-line",
+          "w-full overflow-hidden rounded-pill",
+          onDark ? "bg-white/25" : "bg-line",
           heights[size],
           trackClassName,
         )}
       >
         <div
           className="h-full rounded-pill transition-[width] duration-700 ease-out"
-          style={{ width: `${pct}%`, backgroundColor: color ?? "var(--color-brand-500)" }}
+          style={{
+            width: `${pct}%`,
+            backgroundColor: color ?? (onDark ? "#fff" : "var(--color-brand-500)"),
+          }}
         />
       </div>
     </div>

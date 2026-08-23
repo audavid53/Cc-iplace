@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BadgeArt } from "@/components/art/BadgeArt";
 import { Avatar } from "@/components/ui/Avatar";
 import { ProgressBar } from "@/components/ui/Progress";
-import { nextTierFor, tierFor, tierProgress, unitsToNextTier } from "@/data/badges";
+import { nextTierFor, tierFor, tierProgress, xpToNextTier } from "@/data/badges";
 import { useProgress } from "@/state/useProgress";
 import { cn } from "@/lib/cn";
 
@@ -15,9 +15,9 @@ const LEARNER = { name: "Mary Sokoh", role: "Aspiring Product Designer" };
  * tier is, and one concrete next action.
  */
 export function ProfileStatusCard({ className }: { className?: string }) {
-  const { units } = useProgress();
-  const tier = tierFor(units);
-  const next = nextTierFor(units);
+  const { xp } = useProgress();
+  const tier = tierFor(xp);
+  const next = nextTierFor(xp);
 
   return (
     <div
@@ -42,10 +42,10 @@ export function ProfileStatusCard({ className }: { className?: string }) {
         </div>
         <p className="ml-auto text-right">
           <span className="block text-base font-extrabold tabular-nums">
-            {units.toLocaleString("en-NG")}
+            {xp.toLocaleString("en-NG")}
           </span>
           <span className="block text-[0.625rem] font-semibold tracking-wide text-shell-muted uppercase">
-            Units
+            XP
           </span>
         </p>
       </div>
@@ -53,7 +53,7 @@ export function ProfileStatusCard({ className }: { className?: string }) {
       <ProgressBar
         className="mt-3"
         size="sm"
-        value={tierProgress(units)}
+        value={tierProgress(xp)}
         label={next ? `Progress to ${next.name}` : "Highest tier reached"}
         color="var(--color-xp)"
         trackClassName="bg-shell-line"
@@ -68,7 +68,7 @@ export function ProfileStatusCard({ className }: { className?: string }) {
           <span className="min-w-0 flex-1 text-left">
             <span className="block truncate text-xs font-semibold">Next: {next.name}</span>
             <span className="block truncate text-[0.6875rem] text-shell-muted">
-              {unitsToNextTier(units).toLocaleString("en-NG")} Units away — {next.perk}
+              {xpToNextTier(xp).toLocaleString("en-NG")} XP away — {next.perk}
             </span>
           </span>
           <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-shell-muted" />

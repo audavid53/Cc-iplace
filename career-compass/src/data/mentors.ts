@@ -27,7 +27,7 @@ export const MENTORS: Mentor[] = [
     bio: "Twelve years in Nigerian financial services, from bank operations to leading a product team of 30. Hires two to three graduates a year.",
     sessionTitle: "How fintech actually hires graduates",
     duration: "18 min",
-    units: 80,
+    xp: 80,
     watched: false,
     takeaways: [
       "Most graduate roles are filled before they are advertised — through referrals from people who have seen your work.",
@@ -67,7 +67,7 @@ export const MENTORS: Mentor[] = [
     bio: "Self-taught engineer who moved from a teaching job into software at 26. Now reviews technical hires for his team.",
     sessionTitle: "Switching into tech without a CS degree",
     duration: "22 min",
-    units: 80,
+    xp: 80,
     watched: true,
     takeaways: [
       "Ship three small projects that solve a problem you personally have.",
@@ -99,7 +99,7 @@ export const MENTORS: Mentor[] = [
     bio: "Runs clinical operations across four facilities. Started as a records officer straight out of university.",
     sessionTitle: "The health careers nobody tells you about",
     duration: "16 min",
-    units: 70,
+    xp: 70,
     watched: false,
     takeaways: [
       "Health systems need operations, data and logistics people as much as clinicians.",
@@ -126,7 +126,7 @@ export const MENTORS: Mentor[] = [
     bio: "Built a studio from freelance work at 23. Now hires junior creatives and reviews hundreds of portfolios a year.",
     sessionTitle: "Getting paid properly for creative work",
     duration: "20 min",
-    units: 80,
+    xp: 80,
     watched: false,
     takeaways: [
       "Show six strong pieces, not twenty average ones.",
@@ -153,7 +153,7 @@ export const MENTORS: Mentor[] = [
     bio: "Manages supply relationships with 400 smallholder farms. Studied economics, not agriculture.",
     sessionTitle: "Agriculture is a technology career now",
     duration: "17 min",
-    units: 70,
+    xp: 70,
     watched: false,
     takeaways: [
       "Distribution and financing are where the graduate roles are.",
@@ -180,7 +180,7 @@ export const MENTORS: Mentor[] = [
     bio: "Designs and runs youth programmes across three states. Came from a classroom teaching background.",
     sessionTitle: "Building a career in social impact that pays",
     duration: "19 min",
-    units: 70,
+    xp: 70,
     watched: false,
     takeaways: [
       "Monitoring and evaluation skills are the fastest route to a funded role.",

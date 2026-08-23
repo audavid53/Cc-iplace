@@ -7,7 +7,7 @@ export const ASSESSMENTS: Assessment[] = [
     tagline: "How you naturally work",
     why: "Knowing how you work best stops you chasing roles that will drain you. It takes about six minutes and you only answer with what feels true today.",
     minutes: 6,
-    units: 100,
+    xp: 100,
     questionCount: 4,
     aiAssisted: false,
     questions: [
@@ -53,7 +53,7 @@ export const ASSESSMENTS: Assessment[] = [
     tagline: "Your seven-pillar baseline",
     why: "This is the score your whole journey is measured against. Answer honestly — a low score now just means there is more room to show progress later.",
     minutes: 9,
-    units: 150,
+    xp: 150,
     questionCount: 4,
     aiAssisted: false,
     questions: [
@@ -99,7 +99,7 @@ export const ASSESSMENTS: Assessment[] = [
     tagline: "Where you could thrive",
     why: "This one matches what you enjoy against how the 14 sectors actually work in Nigeria, so the suggestions are things you can genuinely pursue from here.",
     minutes: 11,
-    units: 180,
+    xp: 180,
     questionCount: 4,
     aiAssisted: true,
     aiExplainer:

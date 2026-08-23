@@ -37,7 +37,7 @@ export default function Assessments() {
                       {assessment.minutes} min
                     </Pill>
                     <Pill tone="xp" size="sm" icon={<Sparkles />}>
-                      +{assessment.units} Units
+                      +{assessment.xp} XP
                     </Pill>
                     {assessment.aiAssisted ? (
                       <Pill tone="info" size="sm" icon={<Wand2 />}>

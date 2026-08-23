@@ -36,7 +36,7 @@ function RewardCard({ reward, onDismiss }: { reward: Reward; onDismiss: () => vo
             {reward.tierUnlocked ? reward.tierUnlocked.perk : reward.effect}
           </p>
           <p className="mt-2 inline-flex items-center gap-1.5 rounded-pill bg-xp-soft px-2.5 py-1 text-xs font-bold text-warn">
-            +{reward.units} Units earned
+            +{reward.xp} XP earned
           </p>
         </div>
         <button
@@ -54,7 +54,7 @@ function RewardCard({ reward, onDismiss }: { reward: Reward; onDismiss: () => vo
 
 /**
  * Makes effort visible. Every awarded action names what the learner did, what
- * changed because of it, and what it was worth — so Units never read as an
+ * changed because of it, and what it was worth — so XP never read as an
  * arbitrary number.
  */
 export function RewardFeedback() {

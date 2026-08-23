@@ -1,92 +1,149 @@
-import { Check, Lock, Play } from "lucide-react";
+import { Check, Lock } from "lucide-react";
+import { Art3D } from "@/components/art/Art3D";
 import { Pill } from "@/components/ui/Pill";
-import type { RoadmapStage } from "@/data/types";
 import { cn } from "@/lib/cn";
+import type { Level, LevelNumber, LevelState } from "@/data/types";
 
-const NODE_STATE = {
-  done: {
-    node: "bg-success text-white",
-    label: "Completed",
-    tone: "success",
-  },
-  current: {
-    node: "bg-brand-500 text-white ring-6 ring-brand-100",
-    label: "You are here",
-    tone: "brand",
-  },
-  locked: {
-    node: "bg-line text-muted",
-    label: "Locked",
-    tone: "neutral",
-  },
-} as const;
+function stateOf(level: Level, current: LevelNumber): LevelState {
+  if (level.level < current) return "done";
+  if (level.level === current) return "current";
+  return "locked";
+}
+
+const COPY: Record<LevelState, string> = {
+  done: "Completed",
+  current: "You are here",
+  locked: "Locked",
+};
 
 /**
- * The programme roadmap, drawn as a winding trail rather than a list: stages
- * alternate sides so the whole path is visible at a glance and the current
- * position is obvious. Semantically it stays an ordered list.
+ * The career journey map from blueprint section 6.
+ *
+ * Nodes alternate left and right down a single spine, so the eye follows one
+ * path rather than scanning a list — the "where am I / what is next / what am I
+ * working toward" question the brief opens with. Level 6 is drawn as a reward
+ * node rather than another step, because it is the only one that unlocks
+ * something outside the product.
  */
-export function RoadmapTrail({ stages }: { stages: RoadmapStage[] }) {
+export function RoadmapTrail({
+  levels,
+  currentLevel,
+  className,
+}: {
+  levels: Level[];
+  currentLevel: LevelNumber;
+  className?: string;
+}) {
   return (
-    <ol className="relative">
-      {/* The trail itself — decorative, the list order carries the meaning. */}
+    <ol className={cn("relative", className)}>
+      {/*
+        The spine. Decorative — the ordered list already conveys sequence.
+        It runs down the left edge on a phone, where there is no room to
+        alternate, and moves to the centre once there is.
+      */}
       <span
         aria-hidden="true"
-        className="absolute inset-y-4 left-6 w-1 rounded-pill bg-line sm:left-1/2 sm:-translate-x-1/2"
+        className="absolute inset-y-6 left-8 w-1 -translate-x-1/2 rounded-full bg-line sm:left-1/2"
       />
 
-      {stages.map((stage, index) => {
-        const state = NODE_STATE[stage.state];
-        const alignRight = index % 2 === 1;
+      {levels.map((level, index) => {
+        const state = stateOf(level, currentLevel);
+        const left = index % 2 === 0;
 
         return (
           <li
-            key={stage.id}
+            key={level.level}
             className={cn(
-              "relative flex gap-4 pb-6 sm:w-1/2 sm:gap-6",
-              // Pull alternating stages together so the path reads as one trail.
-              index > 0 && "sm:-mt-8",
-              alignRight ? "sm:ml-auto sm:flex-row sm:pl-8" : "sm:flex-row-reverse sm:pr-8 sm:text-right",
+              "relative flex items-center gap-4 py-4",
+              // Phone: node first, card fills the rest. Wider: alternate sides.
+              "flex-row-reverse justify-end",
+              left ? "sm:flex-row" : "sm:flex-row-reverse",
             )}
           >
-            <span
-              className={cn(
-                "z-10 grid size-12 shrink-0 place-items-center rounded-full text-sm font-extrabold",
-                state.node,
-                alignRight ? "sm:-ml-14" : "sm:-mr-14",
-              )}
-            >
-              {stage.state === "done" ? (
-                <Check aria-hidden="true" className="size-5" />
-              ) : stage.state === "locked" ? (
-                <Lock aria-hidden="true" className="size-4.5" />
-              ) : (
-                <Play aria-hidden="true" className="size-5 fill-current" />
-              )}
-              <span className="sr-only">{state.label}</span>
-            </span>
+            {/* Card half */}
+            <div className={cn("min-w-0 flex-1", left ? "sm:text-right" : "sm:text-left")}>
+              <div
+                data-ramp={level.ramp}
+                className={cn(
+                  "inline-block w-full max-w-sm rounded-card p-4 text-left",
+                  state === "current"
+                    ? "ramp-block"
+                    : "border border-line bg-surface shadow-card",
+                  state === "locked" && "border-dashed",
+                )}
+              >
+                <div className="flex items-center gap-2">
+                  <Pill
+                    size="sm"
+                    tone={
+                      state === "current" ? "dark" : state === "done" ? "success" : "neutral"
+                    }
+                  >
+                    Level {level.level}
+                  </Pill>
+                  <span
+                    className={cn(
+                      "text-[0.6875rem] font-bold tracking-wide uppercase",
+                      state === "current" ? "on-block-muted" : "text-muted",
+                    )}
+                  >
+                    {COPY[state]}
+                  </span>
+                </div>
 
+                <h3
+                  className={cn(
+                    "mt-2 text-base font-extrabold tracking-tight",
+                    state === "current" ? "text-white" : "text-ink",
+                  )}
+                >
+                  {level.title}
+                </h3>
+                <p
+                  className={cn(
+                    "mt-1 text-sm leading-relaxed",
+                    state === "current" ? "on-block-muted" : "text-muted",
+                  )}
+                >
+                  {level.description}
+                </p>
+
+                <p
+                  className={cn(
+                    "mt-3 text-xs font-semibold",
+                    state === "current" ? "on-block-muted" : "text-brand-700",
+                  )}
+                >
+                  Unlocks: {level.perk}
+                  {level.units > 0 ? ` · ${level.units} units` : ""}
+                </p>
+              </div>
+            </div>
+
+            {/* Node half */}
             <div
+              data-ramp={level.ramp}
               className={cn(
-                "min-w-0 flex-1 rounded-card border bg-surface p-4 shadow-card",
-                stage.state === "current" ? "border-brand-200 ring-1 ring-brand-100" : "border-line",
-                stage.state === "locked" && "border-dashed border-line-strong shadow-none",
+                "relative z-1 grid size-16 shrink-0 place-items-center rounded-full",
+                state === "locked"
+                  ? "border-2 border-dashed border-line-strong bg-surface"
+                  : "ramp-fill ring-4 ring-canvas",
+                state === "current" && "ring-6 ring-brand-100",
               )}
             >
-              <div className={cn("flex flex-wrap items-center gap-1.5", alignRight ? "" : "sm:justify-end")}>
-                <Pill tone="neutral" size="sm">
-                  Week {stage.week}
-                </Pill>
-                <Pill tone={state.tone} size="sm">
-                  {state.label}
-                </Pill>
-              </div>
-              <h3 className="mt-2 text-base font-bold text-ink">{stage.title}</h3>
-              <p className="mt-1 text-sm text-muted">{stage.description}</p>
-              <p className="mt-3 text-xs font-semibold text-brand-700">
-                Unlocks: {stage.perk} · +{stage.units} Units
-              </p>
+              {state === "locked" ? (
+                <Lock className="size-5 text-muted" strokeWidth={2.5} aria-hidden="true" />
+              ) : level.isTreasure ? (
+                <Art3D name={level.art} size="md" />
+              ) : state === "done" ? (
+                <Check className="size-7 text-white" strokeWidth={3} aria-hidden="true" />
+              ) : (
+                <Art3D name={level.art} size="md" />
+              )}
             </div>
+
+            {/* Keeps the two halves symmetrical around the centred spine. */}
+            <div className="hidden flex-1 sm:block" aria-hidden="true" />
           </li>
         );
       })}

@@ -1,4 +1,5 @@
 import { Bookmark, Check, Lock, Sparkles } from "lucide-react";
+import { Art3D } from "@/components/art/Art3D";
 import { BadgeArt } from "@/components/art/BadgeArt";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +13,7 @@ import {
   nextTierFor,
   tierFor,
   tierProgress,
-  unitsToNextTier,
+  xpToNextTier,
 } from "@/data/badges";
 import { PILLARS, readinessScore } from "@/data/pillars";
 import { useProgress } from "@/state/useProgress";
@@ -24,9 +25,9 @@ const LEARNER = {
 };
 
 export default function Profile() {
-  const { units, completed, reset } = useProgress();
-  const tier = tierFor(units);
-  const next = nextTierFor(units);
+  const { xp, completed, reset } = useProgress();
+  const tier = tierFor(xp);
+  const next = nextTierFor(xp);
   const actionsCompleted = Object.keys(completed).length;
 
   return (
@@ -43,7 +44,7 @@ export default function Profile() {
               Level {tier.level} · {tier.name}
             </Pill>
             <Pill tone="xp" icon={<Sparkles />}>
-              {units.toLocaleString("en-NG")} Units
+              {xp.toLocaleString("en-NG")} XP
             </Pill>
             <Pill tone="neutral">{actionsCompleted} actions completed</Pill>
           </div>
@@ -61,14 +62,14 @@ export default function Profile() {
             <p className="mt-0.5 text-sm text-muted">Unlocked: {tier.perk}</p>
             <ProgressBar
               className="mt-3"
-              value={tierProgress(units)}
+              value={tierProgress(xp)}
               label={next ? `Progress to ${next.name}` : "Highest badge reached"}
               color="var(--color-xp)"
               size="lg"
             />
             <p className="mt-2 text-sm text-muted">
               {next
-                ? `${unitsToNextTier(units).toLocaleString("en-NG")} Units to ${next.name}. Keep going — you are closer than you think.`
+                ? `${xpToNextTier(xp).toLocaleString("en-NG")} XP to ${next.name}. Keep going — you are closer than you think.`
                 : "Every badge unlocked. Mentor a newcomer to keep earning."}
             </p>
           </div>
@@ -96,7 +97,7 @@ export default function Profile() {
           <ul className="space-y-3">
             {PILLARS.map((pillar) => (
               <li key={pillar.id} className="flex items-center gap-3">
-                <img src={pillar.art} alt="" width={32} height={32} className="size-8 shrink-0" />
+                <Art3D name={pillar.art} size="sm" />
                 <span className="min-w-0 flex-1 truncate text-sm font-medium text-ink-soft">
                   {pillar.shortName}
                 </span>
@@ -125,7 +126,7 @@ export default function Profile() {
         />
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {BADGE_TIERS.map((item) => {
-            const unlocked = units >= item.unitsRequired;
+            const unlocked = xp >= item.xpRequired;
             return (
               <li
                 key={item.level}
@@ -146,7 +147,7 @@ export default function Profile() {
                   </Pill>
                 ) : (
                   <Pill tone="neutral" size="sm" icon={<Lock />}>
-                    {item.unitsRequired.toLocaleString("en-NG")} Units
+                    {item.xpRequired.toLocaleString("en-NG")} XP
                   </Pill>
                 )}
               </li>

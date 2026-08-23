@@ -110,7 +110,7 @@ export default function Mentorship() {
                       </div>
                       <div className="mt-3 flex flex-wrap items-center gap-1.5">
                         <Pill tone="xp" size="sm" icon={<Sparkles />}>
-                          +{mentor.units} Units
+                          +{mentor.xp} XP
                         </Pill>
                         {watched ? (
                           <Pill tone="success" size="sm" icon={<Check />}>
