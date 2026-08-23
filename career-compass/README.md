@@ -110,7 +110,7 @@ that was never fetched.
 - Progress bars and rings expose `role="progressbar"` / `<title>` with real values
 - Locked states are conveyed by border and label, never by opacity alone
 - `prefers-reduced-motion` disables animation and smooth scrolling
-- Verified with axe-core (WCAG 2.1 A + AA) across all **20 routes at both 420px and 1280px**
+- Verified with axe-core (WCAG 2.1 A + AA) across all 20 routes at both 420px and 1280px: **0 violations**
 
 ### Performance
 
