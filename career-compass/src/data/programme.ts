@@ -1,132 +1,156 @@
-import type { Challenge, FeedItem, Mission, RoadmapStage } from "./types";
+import type {
+  AdmissionStep,
+  Challenge,
+  Cohort,
+  FeedItem,
+  Level,
+  LevelNumber,
+  Mission,
+  Opportunity,
+} from "./types";
 
-export const CURRENT_WEEK = 2;
+/**
+ * The level this demo learner currently sits on. Section 9 has learners moving
+ * at different speeds, so this is per-learner state — it replaces the old
+ * global CURRENT_WEEK constant, which could not express that.
+ */
+export const CURRENT_LEVEL: LevelNumber = 3;
 
 export const MISSIONS: Mission[] = [
   {
     id: "m-1",
     title: "Complete the Career Clarity assessment",
     description: "Twelve questions. It sets the baseline the rest of your journey is measured against.",
-    units: 120,
+    xp: 120,
     pillar: "self-knowledge",
     href: "/assessments/career-clarity",
     cta: "Start assessment",
-    week: 1,
+    level: 1,
+    units: 2,
+    art: "memo",
   },
   {
     id: "m-2",
     title: "Watch one session from your target sector",
     description: "Hear how someone actually got in — and what they would skip if they started again.",
-    units: 80,
+    xp: 80,
     pillar: "curiosity",
     href: "/mentorship",
     cta: "Browse sessions",
-    week: 2,
+    level: 2,
+    units: 2,
+    art: "video-camera",
   },
   {
     id: "m-3",
     title: "Send three networking messages",
     description: "Your weakest pillar right now. Three messages this week moves it more than any lesson.",
-    units: 90,
+    xp: 90,
     pillar: "social-skills",
     href: "/learning/social-skills",
     cta: "Open the lesson",
-    week: 2,
+    level: 3,
+    units: 3,
+    art: "handshake",
   },
   {
     id: "m-4",
     title: "Ship your Proof-of-Skill portfolio piece",
     description: "One small piece of real work beats a long list of courses.",
-    units: 150,
+    xp: 150,
     pillar: "skill-stacking",
     href: "/learning/skill-stacking",
     cta: "See the project",
-    week: 3,
+    level: 4,
+    units: 4,
+    art: "package",
   },
   {
     id: "m-5",
     title: "Present your plan to your Dream Team",
     description: "Say it out loud to four people who will hold you to it.",
-    units: 130,
+    xp: 130,
     pillar: "adaptability",
     href: "/community",
     cta: "Go to community",
-    week: 4,
+    level: 5,
+    units: 3,
+    art: "people",
   },
 ];
 
-export const ROADMAP: RoadmapStage[] = [
+/**
+ * Blueprint section 6. Eight week-keyed stages collapse into six levels: a
+ * learner's position is now their own, not the calendar's, and Level 6 is the
+ * Treasure Chest rather than another block of learning.
+ */
+export const LEVELS: Level[] = [
   {
-    id: "r-1",
-    week: 1,
-    title: "Orientation",
-    description: "Meet your cohort, set up your profile and take your baseline assessments.",
+    level: 1,
+    title: "Find your footing",
+    description:
+      "Set up your profile, meet your cohort and take the baseline assessments the rest of your journey is measured against.",
     perk: "Explorer badge",
-    units: 300,
-    state: "done",
+    xpRequired: 0,
+    units: 6,
+    art: "compass",
+    ramp: "violet",
   },
   {
-    id: "r-2",
-    week: 1,
-    title: "Know Yourself",
-    description: "Self-Knowledge and Financial Awareness lessons, plus your Career Identity Statement.",
-    perk: "Assessment suite unlocked",
-    units: 420,
-    state: "done",
+    level: 2,
+    title: "Know yourself",
+    description:
+      "Self-Knowledge and Financial Awareness lessons, and your first written Career Identity Statement.",
+    perk: "Full assessment suite",
+    xpRequired: 900,
+    units: 8,
+    art: "brain",
+    ramp: "sky",
   },
   {
-    id: "r-3",
-    week: 2,
-    title: "Explore Industries",
-    description: "Mentor sessions across 14 Nigerian sectors and your first sector deep-dive.",
-    perk: "Weekly challenges unlocked",
-    units: 380,
-    state: "current",
+    level: 3,
+    title: "Explore the sectors",
+    description:
+      "Mentor sessions across 14 Nigerian sectors, then a deep-dive into the one you are aiming at.",
+    perk: "Cohort rooms and weekly challenges",
+    xpRequired: 2100,
+    units: 10,
+    art: "telescope",
+    ramp: "green",
   },
   {
-    id: "r-4",
-    week: 2,
-    title: "Build Your Network",
-    description: "Five real conversations with professionals working in your target sector.",
-    perk: "Ask professionals directly",
-    units: 400,
-    state: "locked",
+    level: 4,
+    title: "Stack your skills",
+    description:
+      "Choose a second skill and ship one proof-of-skill portfolio piece a mentor will review.",
+    perk: "Mentor project review",
+    xpRequired: 3800,
+    units: 12,
+    art: "tools",
+    ramp: "amber",
   },
   {
-    id: "r-5",
-    week: 3,
-    title: "Stack Your Skills",
-    description: "Choose your second skill and ship one proof-of-skill portfolio piece.",
-    perk: "Project review by a mentor",
-    units: 520,
-    state: "locked",
+    level: 5,
+    title: "Prove it",
+    description:
+      "Mock interviews, portfolio review and your readiness re-assessment against the seven pillars.",
+    perk: "Profile shared with partner employers",
+    xpRequired: 5600,
+    units: 12,
+    art: "target",
+    ramp: "rose",
   },
   {
-    id: "r-6",
-    week: 3,
-    title: "Practical Projects",
-    description: "Two real-world projects assessed against the pillars they strengthen.",
-    perk: "Dream Team rooms",
-    units: 560,
-    state: "locked",
-  },
-  {
-    id: "r-7",
-    week: 4,
-    title: "Prove It",
-    description: "Mock interviews, portfolio review and your final readiness re-assessment.",
-    perk: "Profile shared with partners",
-    units: 640,
-    state: "locked",
-  },
-  {
-    id: "r-8",
-    week: 4,
-    title: "Launch",
-    description: "Your 90-day plan, alumni network access and referral to open roles.",
-    perk: "Compass badge",
-    units: 700,
-    state: "locked",
+    level: 6,
+    title: "Treasure Chest",
+    description:
+      "Internships and job placements open up. What you unlock depends on the readiness you have built.",
+    perk: "Internship and placement opportunities",
+    xpRequired: 8000,
+    units: 0,
+    art: "gift",
+    ramp: "navy",
+    isTreasure: true,
   },
 ];
 
@@ -136,7 +160,7 @@ export const CHALLENGES: Challenge[] = [
     title: "The Five Conversations Challenge",
     description:
       "Every learner in the cohort reaches out to five professionals this week. Log each conversation and share one thing you learned.",
-    units: 200,
+    xp: 200,
     endsIn: "3 days",
     participants: 486,
     progress: 1720,
@@ -147,7 +171,7 @@ export const CHALLENGES: Challenge[] = [
     title: "Sector Myth-Buster",
     description:
       "Post one belief about your target sector that turned out to be wrong once you looked closely.",
-    units: 90,
+    xp: 90,
     endsIn: "6 days",
     participants: 213,
     progress: 640,
@@ -162,7 +186,7 @@ export const FEED: FeedItem[] = [
     action: "completed",
     detail: "Five Real Conversations project",
     timeAgo: "12m ago",
-    units: 70,
+    xp: 70,
     kind: "project",
   },
   {
@@ -187,7 +211,7 @@ export const FEED: FeedItem[] = [
     action: "finished",
     detail: "the Sector Deep-Dive mission",
     timeAgo: "3h ago",
-    units: 60,
+    xp: 60,
     kind: "mission",
   },
   {
@@ -210,9 +234,152 @@ export const DREAM_TEAM = [
 
 /** Peers within the same level — comparison stays encouraging, not cut-throat. */
 export const LEVEL_PEERS = [
-  { name: "Chidinma O.", units: 2860, you: false },
-  { name: "You", units: 2450, you: true },
-  { name: "Tunde A.", units: 2310, you: false },
-  { name: "Amara N.", units: 2180, you: false },
-  { name: "Segun B.", units: 2020, you: false },
+  { name: "Chidinma O.", xp: 2860, you: false },
+  { name: "You", xp: 2450, you: true },
+  { name: "Tunde A.", xp: 2310, you: false },
+  { name: "Amara N.", xp: 2180, you: false },
+  { name: "Segun B.", xp: 2020, you: false },
+];
+
+/* ==========================================================================
+   Admissions checklist (blueprint section 4.6)
+   --------------------------------------------------------------------------
+   The brief is explicit that a bare "Pending" label is the wrong answer. Each
+   requirement is therefore its own row with its own state and its own reason,
+   so a waiting learner can always see which step is theirs to act on and which
+   is sitting with the admin team.
+   ========================================================================== */
+export const ADMISSION_STEPS: AdmissionStep[] = [
+  {
+    id: "assessments",
+    title: "Assessments",
+    why: "Your results shape the learning path we build for you.",
+    state: "completed",
+    href: "/apply/assessments",
+    art: "memo",
+  },
+  {
+    id: "interview",
+    title: "Scholarship interview",
+    why: "A short recorded conversation so we can hear your goals in your own words.",
+    state: "completed",
+    href: "/apply/interview",
+    art: "clipboard",
+  },
+  {
+    id: "guardian",
+    title: "Parent or guardian details",
+    why: "Applicants under 21 need a guardian on record before admission is confirmed.",
+    state: "completed",
+    href: "/apply/guardian",
+    art: "guardian",
+  },
+  {
+    id: "verification",
+    title: "Verification",
+    why: "Our team checks the details you submitted. Nothing is needed from you.",
+    state: "in-review",
+    href: "/apply",
+    art: "shield",
+    note: "With the admissions team — usually 2 working days",
+  },
+  {
+    id: "admission",
+    title: "Admission decision",
+    why: "Assessed against published criteria: completed requirements, assessment results and interview.",
+    state: "locked",
+    href: "/apply",
+    art: "id-card",
+  },
+  {
+    id: "payment",
+    title: "Programme payment",
+    why: "Opens once you are admitted. Scholarship awards are applied before you pay.",
+    state: "locked",
+    href: "/apply/payment",
+    art: "credit-card",
+  },
+];
+
+/* ==========================================================================
+   Cohorts (blueprint section 9)
+   ========================================================================== */
+export const COHORTS: Cohort[] = [
+  {
+    level: 3,
+    name: "Level 3 · Sector Explorers",
+    members: [
+      { name: "Mary A." },
+      { name: "Oreva E." },
+      { name: "Oboz I." },
+      { name: "Chidinma O." },
+      { name: "Tunde A." },
+    ],
+    activeProject: "Sector Deep-Dive: five findings that surprised you",
+    messagesToday: 34,
+  },
+  {
+    level: 4,
+    name: "Level 4 · Skill Stackers",
+    members: [{ name: "Halima Y." }, { name: "Segun B." }, { name: "Amara N." }],
+    activeProject: "Ship one proof-of-skill piece and review a peer's",
+    messagesToday: 18,
+  },
+];
+
+/* ==========================================================================
+   Level 6 Treasure Chest (blueprint section 14)
+   ========================================================================== */
+export const OPPORTUNITIES: Opportunity[] = [
+  {
+    id: "o-1",
+    title: "Product Analyst Internship",
+    organisation: "Paystack",
+    sector: "Finance",
+    kind: "internship",
+    location: "Lagos · Hybrid",
+    closes: "Closes in 12 days",
+    unlocksAt: 6,
+    eligibility: [
+      "Reached Level 6",
+      "Shipped at least two proof-of-skill projects",
+      "Readiness score of 70 or above",
+    ],
+    art: "bank",
+    ramp: "green",
+  },
+  {
+    id: "o-2",
+    title: "Junior Developer Placement",
+    organisation: "Andela",
+    sector: "Technology",
+    kind: "placement",
+    location: "Remote · Nigeria",
+    closes: "Rolling",
+    unlocksAt: 6,
+    eligibility: [
+      "Reached Level 6",
+      "Completed the Skill Stacking pillar",
+      "Portfolio reviewed by a mentor",
+    ],
+    art: "laptop",
+    ramp: "navy",
+  },
+  {
+    id: "o-3",
+    title: "Health Communications Fellowship",
+    organisation: "Nigeria Health Watch",
+    sector: "Health",
+    kind: "fellowship",
+    location: "Abuja · On-site",
+    closes: "Closes in 27 days",
+    unlocksAt: 6,
+    eligibility: [
+      "Reached Level 6",
+      "Completed a Social Impact sector deep-dive",
+      "Two mentor recommendations",
+    ],
+    art: "stethoscope",
+    ramp: "sky",
+  },
 ];

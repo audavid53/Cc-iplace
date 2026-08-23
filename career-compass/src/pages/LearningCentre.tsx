@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Art3D } from "@/components/art/Art3D";
 import { ChevronRight, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MissionCard } from "@/components/gamification/MissionCard";
@@ -146,15 +147,7 @@ export default function LearningCentre() {
                     to={`/learning/${pillar.id}`}
                     className="flex items-center gap-4 rounded-card border border-line bg-surface p-4 shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-raised"
                   >
-                    <img
-                      src={pillar.art}
-                      alt=""
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      decoding="async"
-                      className="size-12 shrink-0"
-                    />
+                    <Art3D name={pillar.art} size="md" />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-base font-bold text-ink">{pillar.name}</h3>

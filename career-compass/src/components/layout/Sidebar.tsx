@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { ProfileStatusCard } from "@/components/gamification/ProfileStatusCard";
 import { PRIMARY_NAV, SECONDARY_NAV } from "./nav-items";
+import { Art3D } from "@/components/art/Art3D";
 import { cn } from "@/lib/cn";
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -19,10 +20,13 @@ export function Sidebar() {
         to="/"
         className="flex items-center gap-2.5 rounded-xl px-1 py-1 text-white"
       >
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-500 text-sm font-extrabold">
-          CC
+        <span
+          data-ramp="violet"
+          className="ramp-fill grid size-9 shrink-0 place-items-center rounded-tile"
+        >
+          <Art3D name="rocket" size="xs" />
         </span>
-        <span className="text-base font-extrabold tracking-tight">Career Compass</span>
+        <span className="text-base font-extrabold tracking-tight">iPlace</span>
       </NavLink>
 
       <nav aria-label="Primary">

@@ -31,7 +31,7 @@ export default function AssessmentRunner() {
     setStage("result");
     complete({
       key: `assessment:${assessment.id}`,
-      units: assessment.units,
+      xp: assessment.xp,
       label: `Assessment completed: ${assessment.title}`,
       effect: assessment.outcome.headline,
     });
@@ -60,7 +60,7 @@ export default function AssessmentRunner() {
             <Pill tone="neutral">{total} questions</Pill>
             <Pill tone="neutral">about {assessment.minutes} minutes</Pill>
             <Pill tone="xp" icon={<Sparkles />}>
-              +{assessment.units} Units
+              +{assessment.xp} XP
             </Pill>
           </div>
 
@@ -177,7 +177,7 @@ export default function AssessmentRunner() {
         </dl>
 
         <p className="mt-5 inline-flex items-center gap-1.5 rounded-pill bg-xp-soft px-3 py-1.5 text-sm font-bold text-warn">
-          <Sparkles aria-hidden="true" className="size-4" />+{assessment.units} Units earned
+          <Sparkles aria-hidden="true" className="size-4" />+{assessment.xp} XP earned
         </p>
       </Card>
 

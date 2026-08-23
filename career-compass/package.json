@@ -1,5 +1,5 @@
 {
-  "name": "career-compass",
+  "name": "iplace",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "assets:3d": "node scripts/fetch-3d-assets.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

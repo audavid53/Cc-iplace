@@ -101,9 +101,9 @@ function QuizBlock({ questions, onPassed }: { questions: QuizQuestion[]; onPasse
             <span className="font-bold text-ink">
               {correctCount} of {questions.length} correct.
             </span>{" "}
-            Claim your Units and the takeaways stay saved to your profile.
+            Claim your XP and the takeaways stay saved to your profile.
           </p>
-          <Button onClick={onPassed}>Claim Units</Button>
+          <Button onClick={onPassed}>Claim XP</Button>
         </Card>
       ) : null}
     </div>
@@ -144,7 +144,7 @@ export default function MentorSession() {
             onClick={() =>
               complete({
                 key: watchKey,
-                units: mentor.units,
+                xp: mentor.xp,
                 label: `Session watched: ${mentor.sessionTitle}`,
                 effect: `Curiosity to Explore strengthened · ${mentor.sector} insight added`,
               })
@@ -171,7 +171,7 @@ export default function MentorSession() {
           <Pill tone="brand">{mentor.sector}</Pill>
           <Pill tone="neutral">{mentor.duration}</Pill>
           <Pill tone="xp" icon={<Sparkles />}>
-            +{mentor.units} Units
+            +{mentor.xp} XP
           </Pill>
           <Pill tone="neutral" icon={<MessageCircle />}>
             {mentor.questionsAnswered} questions answered
@@ -254,7 +254,7 @@ export default function MentorSession() {
               onPassed={() =>
                 complete({
                   key: quizKey,
-                  units: 40,
+                  xp: 40,
                   label: `Quiz completed: ${mentor.sessionTitle}`,
                   effect: "Curiosity to Explore progress recorded",
                 })
@@ -303,7 +303,7 @@ export default function MentorSession() {
                   setQuestionSent(true);
                   complete({
                     key: `ask:${mentor.id}`,
-                    units: 50,
+                    xp: 50,
                     label: `You contacted ${mentor.name}`,
                     effect: "Social Skills & Networks — professional interaction logged",
                   });
@@ -327,7 +327,7 @@ export default function MentorSession() {
                     Send question
                   </Button>
                   <Pill tone="xp" icon={<Sparkles />}>
-                    +50 Units
+                    +50 XP
                   </Pill>
                 </div>
               </form>

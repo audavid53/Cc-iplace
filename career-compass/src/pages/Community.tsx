@@ -35,9 +35,9 @@ function ActivityRow({ item }: { item: FeedItem }) {
           <Pill tone="neutral" size="sm" icon={<Icon />}>
             {item.kind}
           </Pill>
-          {item.units ? (
+          {item.xp ? (
             <Pill tone="xp" size="sm">
-              +{item.units} Units
+              +{item.xp} XP
             </Pill>
           ) : null}
           <span className="text-xs text-muted">{item.timeAgo}</span>
@@ -49,12 +49,12 @@ function ActivityRow({ item }: { item: FeedItem }) {
 
 export default function Community() {
   const [tab, setTab] = useState("feed");
-  const { units, complete, hasCompleted } = useProgress();
-  const tier = tierFor(units);
+  const { xp, complete, hasCompleted } = useProgress();
+  const tier = tierFor(xp);
 
-  // Peers are shown with the learner's live Units so the comparison is honest.
-  const peers = LEVEL_PEERS.map((peer) => (peer.you ? { ...peer, units } : peer)).sort(
-    (a, b) => b.units - a.units,
+  // Peers are shown with the learner's live XP so the comparison is honest.
+  const peers = LEVEL_PEERS.map((peer) => (peer.you ? { ...peer, xp } : peer)).sort(
+    (a, b) => b.xp - a.xp,
   );
   const leader = peers[0]!;
 
@@ -105,7 +105,7 @@ export default function Community() {
                     description={challenge.description}
                     action={
                       <Pill tone="xp" icon={<Sparkles />}>
-                        +{challenge.units} Units
+                        +{challenge.xp} XP
                       </Pill>
                     }
                   />
@@ -124,7 +124,7 @@ export default function Community() {
                         onClick={() =>
                           complete({
                             key,
-                            units: challenge.units,
+                            xp: challenge.xp,
                             label: `Joined: ${challenge.title}`,
                             effect: `You are one of ${challenge.participants + 1} learners taking part`,
                           })
@@ -171,12 +171,12 @@ export default function Community() {
                   <ProgressBar
                     className="hidden max-w-40 flex-1 sm:block"
                     size="sm"
-                    value={Math.round((peer.units / leader.units) * 100)}
-                    label={`${peer.name} units`}
+                    value={Math.round((peer.xp / leader.xp) * 100)}
+                    label={`${peer.name} xp`}
                     color={peer.you ? "var(--color-brand-500)" : "var(--color-line-strong)"}
                   />
                   <span className="text-sm font-bold tabular-nums text-ink">
-                    {peer.units.toLocaleString("en-NG")}
+                    {peer.xp.toLocaleString("en-NG")}
                   </span>
                 </li>
               ))}

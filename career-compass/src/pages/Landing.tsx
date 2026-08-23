@@ -1,4 +1,5 @@
 import { ArrowRight, Check } from "lucide-react";
+import { Art3D } from "@/components/art/Art3D";
 import { Link } from "react-router-dom";
 import { CompassArt } from "@/components/art/Illustration";
 import { BadgeArt } from "@/components/art/BadgeArt";
@@ -41,17 +42,26 @@ export default function Landing() {
 
       <header className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-5 sm:px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-xl bg-brand-500 text-sm font-extrabold text-white">
-            CC
+          <span
+            data-ramp="violet"
+            className="ramp-fill grid size-9 place-items-center rounded-tile"
+          >
+            <Art3D name="rocket" size="xs" />
           </span>
-          <span className="text-base font-extrabold tracking-tight">Career Compass</span>
+          <span className="text-base font-extrabold tracking-tight">iPlace</span>
         </Link>
         <nav aria-label="Landing" className="ml-auto flex items-center gap-2">
           <Link
-            to="/assessments"
+            to="/apply/assessments"
             className="hidden rounded-pill px-4 py-2 text-sm font-semibold text-muted transition-colors hover:text-ink sm:inline-flex"
           >
             Assessments
+          </Link>
+          <Link
+            to="/apply/interview"
+            className="hidden rounded-pill px-4 py-2 text-sm font-semibold text-muted transition-colors hover:text-ink sm:inline-flex"
+          >
+            Scholarship interview
           </Link>
           <ButtonLink to="/dashboard" size="sm">
             Enter the app
@@ -68,17 +78,17 @@ export default function Landing() {
               From career confusion to a plan you can act on.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-muted">
-              Career Compass moves young Nigerians from “I don’t know where to start” to clear
+              iPlace moves young Nigerians from “I don’t know where to start” to clear
               direction — through assessments, sessions with working professionals, practical
               projects and a cohort that keeps you moving.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <ButtonLink to="/assessments/career-clarity" size="lg">
+              <ButtonLink to="/apply/assessments/career-clarity" size="lg">
                 Take the free clarity assessment
                 <ArrowRight aria-hidden="true" className="size-4" />
               </ButtonLink>
-              <ButtonLink to="/dashboard" size="lg" variant="secondary">
-                See the programme
+              <ButtonLink to="/apply/interview" size="lg" variant="secondary">
+                Apply for a scholarship
               </ButtonLink>
             </div>
             <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
@@ -104,7 +114,7 @@ export default function Landing() {
               <div className="mt-5 space-y-3">
                 {PILLARS.slice(0, 3).map((pillar) => (
                   <div key={pillar.id} className="flex items-center gap-3">
-                    <img src={pillar.art} alt="" width={32} height={32} className="size-8" />
+                    <Art3D name={pillar.art} size="sm" />
                     <span className="min-w-0 flex-1 truncate text-sm font-medium text-ink-soft">
                       {pillar.shortName}
                     </span>
@@ -113,7 +123,7 @@ export default function Landing() {
                 ))}
               </div>
               <p className="mt-5 rounded-xl bg-brand-50 px-3 py-2.5 text-sm font-medium text-brand-700">
-                Next: send three networking messages · +90 Units
+                Next: send three networking messages · +90 XP
               </p>
             </Card>
             <div
@@ -139,7 +149,7 @@ export default function Landing() {
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {PILLARS.map((pillar) => (
               <Card as="li" key={pillar.id} interactive>
-                <img src={pillar.art} alt="" width={44} height={44} className="size-11" />
+                <Art3D name={pillar.art} size="md" />
                 <h3 className="mt-3 text-base font-bold text-ink">{pillar.name}</h3>
                 <p className="mt-1 text-sm text-muted">{pillar.summary}</p>
               </Card>
@@ -176,8 +186,8 @@ export default function Landing() {
             Effort you can see
           </h2>
           <p className="mt-2 max-w-2xl text-muted">
-            You earn Units for concrete actions — an assessment completed, a lesson finished, a
-            project shipped, a professional contacted. Units move you through thirteen badges, and
+            You earn XP for concrete actions — an assessment completed, a lesson finished, a
+            project shipped, a professional contacted. XP move you through thirteen badges, and
             each badge unlocks something real.
           </p>
           <ul className="mt-8 flex flex-wrap gap-4">
@@ -226,7 +236,7 @@ export default function Landing() {
               action to take this week.
             </p>
             <ButtonLink
-              to="/assessments/career-clarity"
+              to="/apply/assessments/career-clarity"
               size="lg"
               className="mt-7 bg-white text-brand-700 hover:bg-brand-50"
             >
@@ -239,9 +249,9 @@ export default function Landing() {
 
       <footer className="border-t border-line bg-surface py-8">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 text-sm text-muted sm:px-6">
-          <p className="font-semibold text-ink">Career Compass</p>
+          <p className="font-semibold text-ink">iPlace</p>
           <p>Career readiness for young Nigerians.</p>
-          <p className="ml-auto">© {new Date().getFullYear()} Career Compass</p>
+          <p className="ml-auto">© {new Date().getFullYear()} iPlace</p>
         </div>
       </footer>
     </div>
